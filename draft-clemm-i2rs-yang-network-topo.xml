@@ -21,13 +21,6 @@
           <email>alex@cisco.com</email>
         </address>
       </author>
-      <author fullname="Hariharan Ananthakrishnan" initials="H." surname="Ananthakrishnan">
-			<organization>Juniper Networks</organization>
-			<address>
-				<email>hanantha@juniper.net</email>
-			</address>
-		</author>
-
       <author fullname="Jan Medved" initials="J." surname="Medved">
         <organization>Cisco</organization>
         <address>
@@ -50,6 +43,12 @@
 		<organization>Bracket Computing</organization>
 			<address>
 				<email>nitin_bahadur@yahoo.com</email>
+			</address>
+		</author>
+      <author fullname="Hariharan Ananthakrishnan" initials="H." surname="Ananthakrishnan">
+			<organization>Packet Design</organization>
+			<address>
+				<email>hanantha@juniper.net</email>
 			</address>
 		</author>
       <date day="8" month="October" year="2014"/>
@@ -99,7 +98,7 @@
 		  view of the network topology with that of the network elements that it
 		  controls.  Alternatively, nodes within the network could propagate
 		  this understanding to compare and reconcile this understanding either
-		  amongs themselves or with help of a controller.  Beyond the network
+		  among themselves or with help of a controller.  Beyond the network
 		  element and the immediate context of I2RS itself, a network controller
 		  might even use the data model to represent its view of the topology
 		  that it controls and expose it to applications north of itself.
@@ -182,108 +181,110 @@ module: network-topology
         </figure>
         <section title="Main building blocks">
 		  <t>
-            A network can contain multiple topologies.  Each topology is captured
-            in its own list element, distinguished via a topology-id.  This is
-            captured by list "topology", contained underneath the root container
-            for this module, "network-topology".
+            A network can contain multiple topologies.  Each topology is
+            captured in its own list element, distinguished via a topology-id.
+            This is captured by list "topology", contained underneath the root
+            container for this module, "network-topology".
 		  </t>
 		  <t>
-            A topology has a certain type, such as OSPF or IS-IS.  A topology can
-            even have multiple types simultaneously.  The type, or types, are
-            captured underneath container "topology-types".  This serves as
-            container for data nodes that represent specific topology types.  In
-            this module, it serves merely as an augmentation target;
-            topology-specific modules will later introduce new data nodes to
-            represent new topology types below this target, i.e. insert them below
-            "topology-types" by ways of augmentation.
+            A topology has a certain type, such as L2, L3, OSPF or IS-IS.  A
+            topology can even have multiple types simultaneously.  The type, or
+            types, are captured underneath the container "topology-types".  This
+            container serves as container for data nodes that represent specific
+            topology types.  In this module it serves merely as an augmentation
+            target; topology-specific modules will later introduce new data
+            nodes to represent new topology types below this target, i.e. insert
+            them below "topology-types" by ways of yang augmentation.
 		  </t>
 		  <t>
             Topology types SHOULD always be represented using containers, not
-            leafs of empty type.  This allows to represent hierarchies of topology
-            subtypes within the instance information.  For example, an instance of
-            an OSPF topology (which, at the same time, is a layer 3 unicast IGP
-            topology) would contain underneath "topology-types" another container
-            "l3-unicast-igp-topology", which in turn would contain a container
-            "ospf-topology".
+            leafs of empty type.  This allows to represent hierarchies of
+            topology subtypes within the instance information.  For example, an
+            instance of an OSPF topology (which, at the same time, is a layer 3
+            unicast IGP topology) would contain underneath "topology-types"
+            another container "l3-unicast-igp-topology", which in turn would
+            contain a container "ospf-topology".
 		  </t>
 		  <t>
-            A topology can in turn be part of a hierarchy of topologies, building
-            on top of other topologies.  Any such topologies are captured in list
-            "underlay-topology".
+            A topology can in turn be part of a hierarchy of topologies,
+            building on top of other topologies.  Any such topologies are
+            captured in the list "underlay-topology".
 		  </t>
 		  <t>
             Furthermore, a topology contains nodes and links, each captured in
             their own list.
 		  </t>
 		  <t>
-            A node has a node-id.  This distinguishes the node from other nodes in
-            the list.  In addition, a node has a list of termination points, used
-            to terminate links.  An examples of a termination point might be a
-            physical or logical port or, more generally, an interface.  Also, a
-            node can in turn map onto other nodes in an underlay topology.  This
-            is captured in list "supporting-node".
+            A node has a node-id that distinguishes the node from other nodes in
+            the list.  In addition, a node has a list of termination points that
+            are used to terminate links.  An example of a termination point
+            might be a physical or logical port or, more generally, an
+            interface.  Also, a node can map onto one or more other nodes in an
+            underlay topology.  This is captured in the list "supporting-node".
 		  </t>
 		  <t>
-            A link is identified by a link-id, uniquely identifying the link
-            within the topology.  Links are point-to-point and unidirectional.
-            Accordingly, a link contains a source and a destination. Both source
-            and destination reference a corresponding node, as well as a
-            termination point on that node.  Analogous to a node, a link can in
-            turn map onto other links an underlay topology.  This is captured in
-            list "supporting-link".
+            A link is identified by a link-id that uniquely identifies the link
+            within a given topology.  Links are point-to-point and
+            unidirectional.  Accordingly, a link contains a source and a
+            destination. Both source and destination reference a corresponding
+            node, as well as a termination point on that node. Similar to a
+            node, a link can map onto one or more links in an underlay topology.
+            This is captured in the list "supporting-link".
 		  </t>
         </section>
         <section title="Discussion and selected design decisions">
 		  <t>
             Rather than maintaining lists in separate containers, the model is
-            kept relatively flat in terms of its containment structure.  This way,
-            path specifiers used to refer to specific nodes, be it in management
-            operations or in specifications of constraints, can remain relatively
-            compact.  Of course, this means there is no separate structure in
-            instance information that separates elements of different lists from
-            one another.  Such structure is semantically not required, although it
-            might enhance human readability in some cases.
+            kept relatively flat in terms of its containment structure.
+            Therefore, path specifiers used to refer to specific nodes, be it in
+            management operations or in specifications of constraints, can
+            remain relatively compact.  Of course, this means there is no
+            separate structure in instance information that separates elements
+            of different lists from one another.  Such structure is semantically
+            not required, although it might enhance human readability in some
+            cases.
 		  </t>
 		  <t>
-            In an effort to minimize assumptions of what a topology might actually
-            represent, mappings between topologies, nodes, links, and termination
-            points are kept strictly generic.  For example, no assumptions are
-            made whether a termination point actually refers to an interface, or
+            To minimize assumptions of what a topology might actually represent,
+            mappings between topologies, nodes, links, and termination points
+            are kept strictly generic.  For example, no assumptions are made
+            whether a termination point actually refers to an interface, or
             whether a node refers to a specific "system" or device; the model at
             this generic level makes no provisions for that.  Any greater
             specifics about mappings between upper and lower layers can be
             captured in augmenting modules.  For example, if a termination point
-            maps to an interface, an augmenting module can augment the termination
-            point with a leaf that references the corresponding interface <xref
-            target="if-config"/>.  If a node maps to a particular device or
-            network element, an augmenting module can augment node with a leaf
-            that references the network element.
+            maps to an interface, an augmenting module can augment the
+            termination point with a leaf that references the corresponding
+            interface <xref target="if-config"/>.  If a node maps to a
+            particular device or network element, an augmenting module can
+            augment node with a leaf that references the network element.
 		  </t>
 		  <t>
-            The model makes extensive use of groupings, instead of simply defining
-            data nodes "in-line".  This allows to more easily include the
+            The model makes use of groupings, instead of simply defining data
+            nodes "in-line".  This allows to more easily include the
             corresponding data nodes in notifications, which then do not need to
             respecify each data node that is to be included.  The tradeoff for
             this is that it makes the specification of constraints more complex,
-            because constraints involving data nodes outside the grouping need to
-            be specified in conjunction with a "uses" statement where the grouping
-            is applied.  This also means that constraints and XPath-statmeents
-            need to specified in such a way that the navigate "down" first and
-            select entire sets of nodes, as opposed to being able to simply
-            specify them against individual data nodes.
+            because constraints involving data nodes outside the grouping need
+            to be specified in conjunction with a "uses" statement where the
+            grouping is applied.  This also means that constraints and
+            XPath-statements need to specified in such a way that the navigate
+            "down" first and select entire sets of nodes, as opposed to being
+            able to simply specify them against individual data nodes.
 		  </t>
 		  <t>
             The topology model includes links that are point-to-point and
             unidirectional.  It does not directly support multipoint and
             bidirectional links.  While this may appear as a limitation, it does
             keep the model simple, generic, and allows it to very easily be
-            subjected applications that make use of graph algorithms.  Birectional
-            conections can be represented through pairs of unidirectional links.
-            By introducing hierarchies of nodes, with nodes at one level mapping
-            onto a set of other nodes at another level, and the introducing new
-            links for nodes at that level, topologies with connections
-            representing non-point-to-point communication patterns can be
-            represented.
+            subjected applications that make use of graph algorithms.
+            Bi-directional connections can be represented through pairs of
+            unidirectional links. Multipoint networks can be represented through
+            pseudo-nodes (similar to IS-IS, for example).  By introducing
+            hierarchies of nodes, with nodes at one level mapping onto a set of
+            other nodes at another level, and the introducing new links for
+            nodes at that level, topologies with connections representing
+            non-point-to-point communication patterns can be represented.
 		  </t>
 		  <t>
             Links are terminated by a single termination point, not sets of
@@ -518,7 +519,7 @@ module network-topology  {
 				below can be augmented with additional cases.
 				A list has been chosen rather than a leaf-list in order
 				to provide room for augmentations, e.g. for
-				statistics or priorization information associated with
+				statistics or prioritization information associated with
 				supporting nodes.";
 			key "node-ref";
 			leaf node-ref {
@@ -703,10 +704,10 @@ module network-topology  {
     than can be listed on the author list.  Additional contributors include:
     <list style="symbols" >
 		<t>
-		Ken Gray, Juniper Networks
+		Ken Gray, Cisco Systems
 		</t>
 		<t>
-		Tom Nadeau, Juniper Networks
+		Tom Nadeau, Brocade
 		</t>
 		<t>
 		Aleksandr Zhdankin, Cisco
