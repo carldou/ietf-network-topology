@@ -4,7 +4,7 @@
 <?rfc rfcedstyle="yes"?>
 <?rfc subcompact="no" ?>
 <?rfc symrefs="yes"?>
-<rfc category="exp" docName="draft-clemm-i2rs-yang-network-topo-00.txt" ipr="pre5378Trust200902">
+<rfc category="exp" docName="draft-clemm-i2rs-yang-network-topo-01.txt" ipr="pre5378Trust200902">
     <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
     <?rfc toc="yes" ?>
     <?rfc compact="yes" ?>
@@ -13,7 +13,7 @@
     <?rfc iprnotified="no" ?>
     <?rfc strict="yes" ?>
     <front>
-      <title abbrev="draft-clemm-i2rs-yang-network-topo-00.txt">A YANG Data Model for Network Topologies</title>
+      <title abbrev="draft-clemm-i2rs-yang-network-topo-01.txt">A Data Model for Network Topologies</title>
 
       <author fullname="Alexander Clemm" initials="A." surname="Clemm">
         <organization>Cisco</organization>
@@ -64,17 +64,17 @@
         <t>
           This document introduces an abstract (basic) topology YANG <xref
           target="RFC6020"/> <xref target="RFC6021"/> model, which can be
-          augmented to cover many different network and service topologies.
-          Applications can operate on any topology at a generic level where
-          specifics of particular topology types are not required, or at a
-          topology-specific level when those specifics come into play. Examples
-          of specific topology types include Layer 2 topology or OpenFlow
-          topologies, Layer 3 topologies such as Unicast IGP, IS-IS <xref
-          target="RFC1195"/> and OSPF <xref target="RFC2328"/>, or traffic
-          engineering (TE) data <xref target="RFC3209"/>. Information that is
-          specific to of a particular type of network topology is captured in
-          the augmented model. The basic data model introduced in this document
-          is generic in nature and can be applied to many network and service
+          augmented to cover many different network topologies.  Applications
+          can operate on any topology at a generic level where specifics of
+          particular topology types are not required, or at a topology-specific
+          level when those specifics come into play. Examples of specific
+          topology types include Layer 2 topology, Layer 3 topologies such as
+          Unicast IGP, IS-IS <xref target="RFC1195"/> and OSPF <xref
+          target="RFC2328"/>, traffic engineering (TE) data <xref
+          target="RFC3209"/>, or a variety of service topologies. Information
+          that is specific to of a particular type of network topology is
+          captured in the augmented model. The basic data model introduced in
+          this document is generic in nature and can be applied to many network
           topologies.
         </t>
         <t>
@@ -89,6 +89,38 @@
           relationships between topologies, as well as dependencies between
           nodes and termination points across topologies.
 		</t>
+
+        <figure align="center">
+          <artwork align="left">
+       +--------------------------------------+
+      /          ___[X]__                    /
+     /       ___/     :  \__                /
+    /       /          :    \__            /
+   /      [X]          :       \__        /
+  /        : \          :         \      /
+ /          : \____________________[X]  /
++------------:-----------:----------:--+
+              :           :         :
+       +-------:-----------:-------:---------+
+      /        [Y]__        :      :        /
+     /          *   \__      :    :        /
+    /           *      \__    :   :       /
+   /           *          \__  : :       /
+  /           *              \ ::       /
+ /           *                [Y]      /
++-----------*----------------*-*------+
+            *               *   *
+       +---*---------------*----*------------+
+      /   *         ____[Z]__   *           /
+     /   *     ____/         \   *         /
+    /   * ____/               \  *        /
+   /    */                     \  *      /
+  /    [Z]                      \ *     /
+ /        \______________________[Z]   /
++-------------------------------------+
+          </artwork>
+        </figure>
+
         <t>
 		  There are multiple applications for such a data model.  For example,
 		  within the context of I2RS, nodes within the network can use the data
@@ -294,28 +326,29 @@ module: network-topology
             supported by those individual links.
 		  </t>
 		  <t>
-            In a hierarchy of topologies, there are nodes mapping to nodes, links
-            mapping to links, and termination points mapping to termination
-            points. Some of this information is redundant.  Specifically, with the
-            link-to-links mapping known, and the termination points of each link
-            known, maintaining separate termination point mapping information is
-            not needed but can be derived via transitive closure.  The model does
-            provide for the option to include this information explicitly, but
-            does not allow for it to be configured to avoid the potential to
-            introduce (and having to validate) corresponding integrity issues.
+            In a hierarchy of topologies, there are nodes mapping to nodes,
+            links mapping to links, and termination points mapping to
+            termination points. Some of this information is redundant.
+            Specifically, with the link-to-links mapping known, and the
+            termination points of each link known, maintaining separate
+            termination point mapping information is not needed but can be
+            derived via transitive closure.  The model does provide for the
+            option to include this information explicitly, but does not allow
+            for it to be configured to avoid the potential to introduce (and
+            having to validate) corresponding integrity issues.
 		  </t>
           <t>
             A topology's topology types are represented using a container which
             contains a data node for each of its topology types.  A topology can
-            encompass several types of topology simultaneously, hence a container is
-            used instead of a case construct, with each topology type in turn
-            represented by a dedicated presence container itself.  The reason for
-            not simply using an empty leaf, or even simpler, do away even with the
-            topology container and just use a leaf-list of topology-type instead, is
-            to be able to represent "class hierarchies" of topology types, with one
-            topology type refining the other.  Topology-type specific containers are
-            to be defined in the topology-specific modules, augmenting the
-            topology-types container.
+            encompass several types of topology simultaneously, hence a
+            container is used instead of a case construct, with each topology
+            type in turn represented by a dedicated presence container itself.
+            The reason for not simply using an empty leaf, or even simpler, do
+            away even with the topology container and just use a leaf-list of
+            topology-type instead, is to be able to represent "class
+            hierarchies" of topology types, with one topology type refining the
+            other.  Topology-type specific containers are to be defined in the
+            topology-specific modules, augmenting the topology-types container.
           </t>
 		</section>
 		<section title="Open issues and items for further discussion">
