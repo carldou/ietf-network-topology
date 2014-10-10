@@ -165,7 +165,7 @@ module network-topology {
           that serve a purpose other than identifying a particular
           topology type.";
       }
-      list underlay-topology {
+      list supporting-topology {
         key "topo-ref";
         leaf topo-ref {
           type leafref {
@@ -262,7 +262,7 @@ module network-topology {
             supporting nodes.";
           leaf topo-ref {
             type leafref {
-              path "../../../underlay-topology/topo-ref";
+              path "../../../supporting-topology/topo-ref";
             }
             description
               "This leaf identifies in which underlay topology
@@ -351,7 +351,7 @@ module network-topology {
             is dependent on.";
           leaf topo-ref {
             type leafref {
-              path "../../../underlay-topology/topo-ref";
+              path "../../../supporting-topology/topo-ref";
             }
             description
               "This leaf identifies in which underlay topology

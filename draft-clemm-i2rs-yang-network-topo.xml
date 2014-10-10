@@ -204,16 +204,19 @@
 module: network-topology
    +--rw network-topology
       +--rw topology* [topology-id]
-         +--rw topology-id          topology-id
-         +--ro server-provided?     boolean
+         +--rw topology-id            topology-id
+         +--ro server-provided?       boolean
          +--rw topology-types
-         +--rw underlay-topology* [topology-ref]
-         |  +--rw topology-ref    leafref
+         +--rw supporting-topology* [topo-ref]
+         |  +--rw topo-ref    leafref
          +--rw node* [node-id]
          |  +--rw node-id              node-id
          |  +--rw termination-point* [tp-id]
-         |  |  +--rw tp-id     tp-id
-         |  |  +--ro tp-ref*   tp-ref
+         |  |  +--rw tp-id                           tp-id
+         |  |  +--rw supporting-termination-point* [topo-ref node-ref tp-ref]
+         |  |     +--rw topo-ref    leafref
+         |  |     +--rw node-ref    leafref
+         |  |     +--rw tp-ref      leafref
          |  +--rw supporting-node* [topo-ref node-ref]
          |     +--rw topo-ref    leafref
          |     +--rw node-ref    leafref
@@ -575,7 +578,7 @@ module network-topology {
           that serve a purpose other than identifying a particular
           topology type.";
       }
-      list underlay-topology {
+      list supporting-topology {
         key "topo-ref";
         leaf topo-ref {
           type leafref {
@@ -672,7 +675,7 @@ module network-topology {
             supporting nodes.";
           leaf topo-ref {
             type leafref {
-              path "../../../underlay-topology/topo-ref";
+              path "../../../supporting-topology/topo-ref";
             }
             description
               "This leaf identifies in which underlay topology
@@ -761,7 +764,7 @@ module network-topology {
             is dependent on.";
           leaf topo-ref {
             type leafref {
-              path "../../../underlay-topology/topo-ref";
+              path "../../../supporting-topology/topo-ref";
             }
             description
               "This leaf identifies in which underlay topology
