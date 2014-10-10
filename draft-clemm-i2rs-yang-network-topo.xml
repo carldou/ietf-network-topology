@@ -71,11 +71,11 @@
           topology types include Layer 2 topology, Layer 3 topologies such as
           Unicast IGP, IS-IS <xref target="RFC1195"/> and OSPF <xref
           target="RFC2328"/>, traffic engineering (TE) data <xref
-          target="RFC3209"/>, or a variety of service topologies. Information
-          that is specific to of a particular type of network topology is
-          captured in the augmented model. The basic data model introduced in
-          this document is generic in nature and can be applied to many network
-          topologies.
+	  target="RFC3209"/>, or any of the variety of transport and service
+          topologies. Information specific to such a particular type of network
+          topology would be captured in a separate, technology-specific model.
+          The basic data model introduced in this document is generic in nature
+          and can be applied to many network topologies.
         </t>
         <t>
           This document introduces the network-topology YANG module, which
