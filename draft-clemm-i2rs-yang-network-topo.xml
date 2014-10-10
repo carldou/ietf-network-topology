@@ -233,7 +233,7 @@ module: network-topology
         <section title="Main building blocks">
 		  <t>
             A network can contain multiple topologies.  Each topology is
-            captured in its own list element, distinguished via a topology-id.
+            captured in its own list entry, distinguished via a topology-id.
             This is captured by list "topology", contained underneath the root
             container for this module, "network-topology".
 		  </t>
@@ -248,13 +248,13 @@ module: network-topology
             them below "topology-types" by ways of yang augmentation.
 		  </t>
 		  <t>
-            Topology types SHOULD always be represented using containers, not
-            leafs of empty type.  This allows to represent hierarchies of
-            topology subtypes within the instance information.  For example, an
-            instance of an OSPF topology (which, at the same time, is a layer 3
-            unicast IGP topology) would contain underneath "topology-types"
-            another container "l3-unicast-igp-topology", which in turn would
-            contain a container "ospf-topology".
+            Topology types SHOULD always be represented using presence
+            containers, not leafs of empty type.  This allows to represent
+            hierarchies of topology subtypes within the instance information.
+            For example, an instance of an OSPF topology (which, at the same
+            time, is a layer 3 unicast IGP topology) would contain underneath
+            "topology-types" another container "l3-unicast-igp-topology", which
+            in turn would contain a container "ospf-topology".
 		  </t>
 		  <t>
             A topology can in turn be part of a hierarchy of topologies,
@@ -407,8 +407,7 @@ module: network-topology
 	<t>
       <figure>
         <artwork>
-&lt;CODE BEGINS&gt;
-file "network-topology@2013-10-21.yang"
+&lt;CODE BEGINS&gt; file "network-topology.yang"
 module network-topology  {
 	yang-version 1;
 	namespace "urn:TBD:params:xml:ns:yang:network-topology";
@@ -456,7 +455,6 @@ module network-topology  {
 		type inet:uri;
 		description
 			"An identifier for a node in a topology.
-			The identifier may be opaque.
 			The identifier SHOULD be chosen such that the same node in a
 			real network topology will always be identified through the
 			same identifier, even if the model is instantiated in separate
@@ -857,8 +855,9 @@ module network-topology  {
 
     <section title="Acknowledgements">
         <t> We wish to acknowledge the helpful contributions, comments, and
-        suggestions that were received from Ladislav Lhotka, Andy Bierman,
-        Carlos Pignataro, Juergen Schoenwaelder, and Alia Atlas.
+        suggestions that were received from Martin Bjorklund, Ladislav Lhotka,
+        Andy Bierman, Carlos Pignataro, Juergen Schoenwaelder, Alia Atlas and
+        Benoit Claise.
 		</t>
     </section>
     </middle>
