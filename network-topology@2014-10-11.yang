@@ -21,15 +21,10 @@ module network-topology {
      through a hierarchy of nodes, then connecting nodes at
      upper layers of the hierarchy.";
 
-  revision 2014-10-07 {
-    description
-      "Editorial and conformance changes";
-    reference "draft-clemm-i2rs-yang-network-topo-01";
-  }
-  revision 2013-10-21 {
+  revision 2014-10-11 {
     description
       "Initial revision.";
-    reference "draft-clemm-i2rs-yang-network-topo-00";
+    reference "draft-clemm-i2rs-yang-network-topo-01";
   }
 
   typedef topology-id {
