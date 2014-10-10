@@ -78,7 +78,7 @@
           topologies.
         </t>
         <t>
-          This document introduces the "network-topology" YANG module, which
+          This document introduces the network-topology YANG module, which
           defines a generic topology model at its most general level of
           abstraction. The module defines a topology graph and components from
           which it is composed: nodes, edges and termination points. Nodes
@@ -87,39 +87,57 @@
           contain multiple topologies, for example topologies at different
           layers and overlay topologies. The model therefore allows to capture
           relationships between topologies, as well as dependencies between
-          nodes and termination points across topologies.
+          nodes and termination points across topologies. An example of a
+          topology stack is shown in the following figure.
 		</t>
 
         <figure align="center">
           <artwork align="left">
-       +--------------------------------------+
-      /          ___[X]__                    /
-     /       ___/     :  \__                /
-    /       /          :    \__            /
-   /      [X]          :       \__        /
-  /        : \          :         \      /
- /          : \____________________[X]  /
-+------------:-----------:----------:--+
-              :           :         :
-       +-------:-----------:-------:---------+
-      /        [Y]__        :      :        /
-     /          *   \__      :    :        /
-    /           *      \__    :   :       /
-   /           *          \__  : :       /
-  /           *              \ ::       /
- /           *                [Y]      /
-+-----------*----------------*-*------+
-            *               *   *
-       +---*---------------*----*------------+
-      /   *         ____[Z]__   *           /
-     /   *     ____/         \   *         /
-    /   * ____/               \  *        /
-   /    */                     \  *      /
-  /    [Z]                      \ *     /
- /        \______________________[Z]   /
-+-------------------------------------+
+       +---------------------------------------+
+      /            _[X1]_          "Service"  /
+     /           _/  :   \_                  /
+    /          _/     :    \_               /
+   /         _/        :     \_            /
+  /         /           :      \          /
+ /       [X1]__________________[X3]      /
++---------:--------------:------:-------+
+           :              :     :
+       +----:--------------:----:--------------+
+      /      :              :   :        "L3" /
+     /        :              :  :            /
+    /         :               : :           /
+   /         [Y1]_____________[Y2]         /
+  /           *               * *         /
+ /            *              *  *        /
++--------------*-------------*--*-------+
+                *           *   *
+       +--------*----------*----*--------------+
+      /     [Z1]_______________[Z1] "Optical" /
+     /         \_         *   _/             /
+    /            \_      *  _/              / 
+   /               \_   * _/               /
+  /                  \ * /                /
+ /                    [Z]                /
++---------------------------------------+
           </artwork>
         </figure>
+
+        <t>
+          The figure shows three topology levels. At top, the "Service" topology
+          shows relationships between service entities, such as service
+          functions in a service chain. The "L3" topology shows network elements
+          at Layer 3 (IP) and the "Optical" topology shows network elements at
+          Layer 1. Service functions in the "Service" topology are mapped onto
+          network elements in the "L3" topology, which in turn are mapped onto
+          network elements in the "Optical" topology. The figure shows two
+          Service Functions - X1 and X2 - mapping onto a single L3 network
+          element; this could happen, for example, if two service functions
+          reside in the same VM (or server) and share the same set of network
+          interfaces. The figure shows a single "L3" network element mapped onto
+          multiple "Optical" network elements. This could happen, for example,
+          if a single IP router attaches to multiple ROADMs in the optical
+          domain.
+        </t>
 
         <t>
 		  There are multiple applications for such a data model.  For example,
